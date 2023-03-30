@@ -27,4 +27,14 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</string>
     <string name="read_more"><u>Читать далее</u></string>
     <string name="example_date">Вчера, 22:19</string>
+    <string name="change_task">Изменить задание</string>
+    <string name="add_user">Добавить человека</string>
+    <string name="plus_symbol">+</string>
+    <string name="minus_symbol">-</string>
+    <string name="delete_user">Удалить человека</string>
+    <string name="rename">Переименовать группу</string>
+    <string name="set_the_lead">Назначить руководителя</string>
+    <string name="save_changes">Сохранить изменения?</string>
+    <string name="cancel">Отменить</string>
+    <string name="save">Сохранить</string>
 </resources>
