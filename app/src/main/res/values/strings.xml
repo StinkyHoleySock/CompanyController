@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">CompanyController</string>
+    <string name="title_register">Создать аккаунт</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="rules">Я согласен с пользовательским соглашением</string>
+    <string name="btn_login"><u>Есть аккаунт? Войти</u></string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="login_title">ChessTV</string>
+    <string name="forgot_password"><u>Забыли пароль?</u></string>
+    <string name="tv_btn_register"><u>Зарегистрироваться</u></string>
+    <string name="login">Войти</string>
+    <string name="homepage">Главная</string>
+    <string name="streams">Стримы</string>
+    <string name="favorite">Избранное</string>
+    <string name="profile">Профиль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mainpage_title">Добро пожаловать!</string>
+    <string name="user_name">User Name</string>
+    <string name="user_description">Участник с 23 июля 2021</string>
+    <string name="soon">Раздел в разработке</string>
+    <string name="example_text_profile">Сообщения</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</string>
+    <string name="read_more"><u>Читать далее</u></string>
+    <string name="example_date">Вчера, 22:19</string>
+</resources>
