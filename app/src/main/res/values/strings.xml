@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="confirm_password">Подтвердите пароль</string>
-    <string name="rules">Я согласен с пользовательским соглашением</string>
+    <string name="rules">Начальник</string>
     <string name="btn_login"><u>Есть аккаунт? Войти</u></string>
     <string name="create_account">Создать аккаунт</string>
     <string name="login_title">ChessTV</string>
@@ -37,4 +37,5 @@
     <string name="save_changes">Сохранить изменения?</string>
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
+    <string name="patronymic">Отчество</string>
 </resources>
