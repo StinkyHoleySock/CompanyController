@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.companycontroller.R
 import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.FragmentUserListBinding
+import com.example.companycontroller.shared.extensions.applyVisibility
 import com.example.companycontroller.ui.adapters.UserAdapter
 
 class UserListFragment: Fragment(R.layout.fragment_user_list) {
@@ -43,7 +44,6 @@ class UserListFragment: Fragment(R.layout.fragment_user_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(
                 context,
@@ -52,26 +52,27 @@ class UserListFragment: Fragment(R.layout.fragment_user_list) {
             adapter = userAdapter
         }
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel.filterUsersByName(query)
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.filterUsersByName(newText)
+                return false
+            }
+        })
+
         viewModel.userList.observe(viewLifecycleOwner) { usersList ->
             userAdapter.setData(usersList)
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressCircular.applyVisibility(it)
+        }
     }
 
-    private fun initSearchView() {
-//        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                val query = getFilter(binding.radioGroup.checkedRadioButtonId)+query
-//                Log.d("develop", "queryts: $query")
-//                viewModel.getBooksList(query)
-//                return false
-//            }
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                val query = getFilter(binding.radioGroup.checkedRadioButtonId)+newText
-//                Log.d("develop", "querytc: $query")
-//                viewModel.getBooksList(query)
-//                return false
-//            }
-//        })
-    }
+
+
 }

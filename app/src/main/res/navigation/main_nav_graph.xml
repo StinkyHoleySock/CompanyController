@@ -11,8 +11,8 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_userListFragment"
-            app:destination="@id/userListFragment" />
+            android:id="@+id/action_loginFragment_to_navigationFragment"
+            app:destination="@id/navigationFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -26,4 +26,34 @@
         android:id="@+id/userListFragment"
         android:name="com.example.companycontroller.ui.fragments.UserListFragment"
         android:label="UserListFragment" />
+    <fragment
+        android:id="@+id/navigationFragment"
+        android:name="com.example.companycontroller.ui.fragments.NavigationFragment"
+        android:label="NavigationFragment" >
+        <action
+            android:id="@+id/action_navigationFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
+        <action
+            android:id="@+id/action_navigationFragment_to_groupListFragment"
+            app:destination="@id/groupListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupEditFragment"
+        android:name="com.example.companycontroller.ui.fragments.GroupEditFragment"
+        android:label="GroupEditFragment" />
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="com.example.companycontroller.ui.fragments.GroupListFragment"
+        android:label="GroupListFragment" >
+        <action
+            android:id="@+id/action_groupListFragment_to_groupEditFragment"
+            app:destination="@id/groupEditFragment" />
+        <action
+            android:id="@+id/action_groupListFragment_to_groupCreateFragment"
+            app:destination="@id/groupCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupCreateFragment"
+        android:name="com.example.companycontroller.ui.fragments.GroupCreateFragment"
+        android:label="GroupCreateFragment" />
 </navigation>

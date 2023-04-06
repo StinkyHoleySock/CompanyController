@@ -4,8 +4,10 @@ import java.util.UUID
 
 //Класс модели данных для группы
 data class Group(
-    val id: UUID,
+    val id: String,
     val name: String,
-    val members: List<User>,
+    val members: MutableList<String>,
     val task: String
-)
+) {
+    constructor() : this("", "", mutableListOf(), "")
+}

@@ -38,4 +38,11 @@
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
     <string name="patronymic">Отчество</string>
+    <string name="users">Работники</string>
+    <string name="groups">Группы</string>
+    <string name="my_group">Моя группа</string>
+    <string name="group_name">Название группы</string>
+    <string name="group_task">Задание</string>
+    <string name="users_in_group">Работники</string>
+    <string name="leader">Руководитель:</string>
 </resources>

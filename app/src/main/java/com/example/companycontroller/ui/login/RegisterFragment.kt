@@ -80,7 +80,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             surname = surname,
             patronymic = patronymic,
             email = email,
-            isEmployee = !binding.acceptSwitch.isChecked
+            isLeader = false,
+            isSuperUser = !binding.acceptSwitch.isChecked
         )
         val userCollection = db.collection("user")
 

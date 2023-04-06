@@ -37,7 +37,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         }
 
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_userListFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_navigationFragment)
         }
     }
 

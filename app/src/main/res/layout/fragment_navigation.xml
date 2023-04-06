@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="8dp"
+    android:layout_marginHorizontal="16dp"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_user_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:text="@string/users"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_groups_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:layout_marginTop="8dp"
+        android:text="@string/groups"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_my_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:layout_marginTop="8dp"
+        android:text="@string/my_group"/>
+
+</LinearLayout>
