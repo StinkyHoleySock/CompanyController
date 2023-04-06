@@ -9,13 +9,21 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.companycontroller.R
 import com.example.companycontroller.data.model.Group
 import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.FragmentGroupEditBinding
 import com.example.companycontroller.ui.adapters.UserAdapter
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
 
@@ -30,9 +38,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
     private val args: GroupEditFragmentArgs by navArgs()
 
     private fun userAction(user: User) {
-        if (args.addUser) {
-            
-        }
+
     }
 
     override fun onCreateView(
@@ -44,7 +50,23 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
         return binding.root
     }
 
+    private suspend fun getUsersByIds(userIds: List<String>): List<User> {
+        val db = Firebase.firestore
+
+        val users = mutableListOf<User>()
+        val collectionRef = db.collection("user")
+
+        userIds.forEach { userId ->
+            collectionRef.document(userId).get().await()?.toObject(User::class.java)?.let { user ->
+                users.add(user)
+            }
+        }
+
+        return users
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         val db = Firebase.firestore
@@ -59,12 +81,36 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val leader = document.getString("leader") ?: ""
-                    binding.etGroupName.setText(document.getString("name"))
-                    binding.etTask.setText(document.getString("task"))
-                    binding.tvGroupLeader.text ="Руководитель группы: $leader"
+                    val group = document.toObject(Group::class.java)
+                    val members = group?.members ?: listOf()
 
-                    Log.d("develop", ":)")
+                    binding.etGroupName.setText(group?.name)
+                    binding.etTask.setText(group?.task)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        // Обработка результата
+                        val leaderUser = getUsersByIds(listOf(group?.leader) as List<String>)
+                        val leader =
+                            if (leaderUser.isNotEmpty()) "${leaderUser[0].surname} ${leaderUser[0].name}" else ""
+                        binding.tvGroupLeader.text = "Руководитель группы: $leader"
+                    }
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        // Обработка результата
+                        val users = getUsersByIds(members)
+                        Log.d("develop", "users: ${users}")
+                        userAdapter.setData(users)
+                    }
+
+                    binding.rvUsersInGroup.apply {
+                        layoutManager = LinearLayoutManager(
+                            context,
+                            LinearLayoutManager.VERTICAL, false
+                        )
+                        adapter = userAdapter
+                    }
+
                 } else {
                     Log.d("develop", "No such document")
                 }
@@ -73,36 +119,26 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                 Log.d("develop", "get failed with ", exception)
             }
 
-
         binding.btnSave.setOnClickListener {
-            val leader = "Мухаммед"
-            val group = Group(
-                id = args.id,
-                name = binding.etGroupName.text.toString(),
-                task = binding.etTask.text.toString(),
-                leader = leader,
-                members = mutableListOf()
-            )
-
-            db.collection("group").document(args.id)
-                .set(group)
-                .addOnSuccessListener {
-                    Log.d("develop", "Group updated successfully")
-                    Toast.makeText(requireContext(), "Успех", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    Log.w("develop", "Error updating group", e)
-                    Toast.makeText(requireContext(), "Неуспех", Toast.LENGTH_SHORT).show()
-                }
-
+            val groupRef = db.collection("group").document(args.id)
+            groupRef.update("name", (binding.etGroupName.text.toString()))
+            groupRef.update("task", (binding.etTask.text.toString()))
         }
 
         binding.btnSetLeader.setOnClickListener {
-            findNavController().navigate(R.id.action_groupEditFragment_to_listOfUsersDialog)
+            val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
+                args.id,
+                true
+            )
+            findNavController().navigate(action)
         }
 
-        binding.tvGroupLeader.text = "Руководитель группы: "
-
-
+        binding.btnAdd.setOnClickListener {
+            val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
+                args.id,
+                false
+            )
+            findNavController().navigate(action)
+        }
     }
 }

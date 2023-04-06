@@ -83,15 +83,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             isLeader = false,
             isSuperUser = !binding.acceptSwitch.isChecked
         )
-        val userCollection = db.collection("user")
 
-        userCollection.add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d("develop", "DocumentSnapshot written with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("develop", "Error adding document", e)
-            }
+        val docRef = db.collection("user").document(user.id)
+        docRef.set(user)
+            .addOnSuccessListener { Log.d("develop", "User saved successfully") }
+            .addOnFailureListener { e -> Log.e("develop", "Error saving user", e) }
     }
 
 

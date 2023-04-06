@@ -41,15 +41,15 @@
         android:id="@+id/groupEditFragment"
         android:name="com.example.companycontroller.ui.fragments.GroupEditFragment"
         android:label="GroupEditFragment" >
-        <action
-            android:id="@+id/action_groupEditFragment_to_listOfUsersDialog"
-            app:destination="@id/listOfUsersDialog" />
         <argument
             android:name="id"
             app:argType="string" />
         <argument
             android:name="addUser"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_groupEditFragment_to_listOfUsersDialog"
+            app:destination="@id/listOfUsersDialog" />
     </fragment>
     <fragment
         android:id="@+id/groupListFragment"
@@ -66,8 +66,18 @@
         android:id="@+id/groupCreateFragment"
         android:name="com.example.companycontroller.ui.fragments.GroupCreateFragment"
         android:label="GroupCreateFragment" />
-    <dialog
+    <fragment
         android:id="@+id/listOfUsersDialog"
         android:name="com.example.companycontroller.ui.fragments.ListOfUsersDialog"
-        android:label="ListOfUsersDialog" />
+        android:label="ListOfUsersDialog" >
+        <action
+            android:id="@+id/action_listOfUsersDialog_to_groupEditFragment2"
+            app:destination="@id/groupEditFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="setLeader"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

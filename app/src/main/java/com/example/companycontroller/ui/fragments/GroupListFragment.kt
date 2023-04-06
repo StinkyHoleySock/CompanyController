@@ -77,4 +77,9 @@ class GroupListFragment: Fragment(R.layout.fragment_group) {
             binding.progressCircular.applyVisibility(it)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getGroups()
+    }
 }
