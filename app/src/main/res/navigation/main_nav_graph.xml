@@ -40,7 +40,17 @@
     <fragment
         android:id="@+id/groupEditFragment"
         android:name="com.example.companycontroller.ui.fragments.GroupEditFragment"
-        android:label="GroupEditFragment" />
+        android:label="GroupEditFragment" >
+        <action
+            android:id="@+id/action_groupEditFragment_to_listOfUsersDialog"
+            app:destination="@id/listOfUsersDialog" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="addUser"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/groupListFragment"
         android:name="com.example.companycontroller.ui.fragments.GroupListFragment"
@@ -56,4 +66,8 @@
         android:id="@+id/groupCreateFragment"
         android:name="com.example.companycontroller.ui.fragments.GroupCreateFragment"
         android:label="GroupCreateFragment" />
+    <dialog
+        android:id="@+id/listOfUsersDialog"
+        android:name="com.example.companycontroller.ui.fragments.ListOfUsersDialog"
+        android:label="ListOfUsersDialog" />
 </navigation>

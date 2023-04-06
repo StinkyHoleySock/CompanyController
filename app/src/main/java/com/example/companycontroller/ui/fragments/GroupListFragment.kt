@@ -28,7 +28,8 @@ class GroupListFragment: Fragment(R.layout.fragment_group) {
     }
 
     private fun navigateToGroupEditFragment(it: Group) {
-        findNavController().navigate(R.id.action_groupListFragment_to_groupEditFragment)
+        val action = GroupListFragmentDirections.actionGroupListFragmentToGroupEditFragment(it.id, true)
+        findNavController().navigate(action)
     }
 
     override fun onCreateView(

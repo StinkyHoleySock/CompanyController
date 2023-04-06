@@ -31,23 +31,22 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
 
         binding.btnSave.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
+            val id = UUID.randomUUID().toString()
             val group = Group(
-                id = UUID.randomUUID().toString(),
+                id = id,
                 name = binding.etGroupName.text.toString(),
                 task = binding.etTask.text.toString(),
+                leader = null,
                 members = mutableListOf()
             )
 
             if (binding.etGroupName.text.toString().isNotEmpty()) {
-                val groupCollection = db.collection("group")
 
-                groupCollection.add(group)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d("develop", "DocumentSnapshot written with ID: ${documentReference.id}")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w("develop", "Error adding document", e)
-                    }
+                val docRef = db.collection("group").document(id)
+                docRef.set(group)
+                    .addOnSuccessListener { Log.d("develop", "Group saved successfully") }
+                    .addOnFailureListener { e -> Log.e("develop", "Error saving group", e) }
+
             }
         }
     }
