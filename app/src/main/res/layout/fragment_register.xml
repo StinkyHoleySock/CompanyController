@@ -119,27 +119,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/accept_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:checked="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password" />
 
-    <TextView
-        android:id="@+id/tv_rules"
-        android:layout_width="312dp"
-        android:layout_height="wrap_content"
-        android:text="@string/rules"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/accept_switch"
-        app:layout_constraintTop_toTopOf="@id/accept_switch"
-        app:layout_constraintBottom_toBottomOf="@id/accept_switch"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_register"
@@ -155,7 +135,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_rules" />
+        app:layout_constraintTop_toBottomOf="@+id/til_password" />
 
     <TextView
         android:id="@+id/tv_btn_login"

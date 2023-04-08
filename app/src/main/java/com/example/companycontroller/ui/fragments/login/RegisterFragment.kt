@@ -1,4 +1,4 @@
-package com.example.companycontroller.ui.login
+package com.example.companycontroller.ui.fragments.login
 
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +11,18 @@ import androidx.navigation.fragment.findNavController
 import com.example.companycontroller.R
 import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.FragmentRegisterBinding
-import com.google.android.material.textfield.TextInputLayout
+import com.example.companycontroller.shared.extensions.ToastError.toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.UUID
+import com.google.firebase.ktx.Firebase
 
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreateView(
@@ -28,6 +32,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     ): View {
         //Инициализация binding
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        auth = Firebase.auth
         return binding.root
     }
 
@@ -44,11 +49,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             btnRegister.setOnClickListener {
                 when {
                     //Валидация полей
-                    etName.text.toString().isEmpty() -> toast(tilName)
-                    etSurname.text.toString().isEmpty() -> toast(tilSurname)
-                    etPatronymic.text.toString().isEmpty() -> toast(tilPatronymic)
-                    etEmail.text.toString().isEmpty() -> toast(tilEmail)
-                    etPassword.text.toString().isEmpty() -> toast(tilPassword)
+                    etName.text.toString().isEmpty() -> toast(requireActivity(), tilName)
+                    etSurname.text.toString().isEmpty() -> toast(requireActivity(), tilSurname)
+                    etPatronymic.text.toString().isEmpty() -> toast(
+                        requireActivity(),
+                        tilPatronymic
+                    )
+                    etEmail.text.toString().isEmpty() -> toast(requireActivity(), tilEmail)
+                    etPassword.text.toString().isEmpty() -> toast(requireActivity(), tilPassword)
 
                     //Регистрация
                     else -> firebaseSignUp(
@@ -56,7 +64,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         surname = etSurname.text.toString(),
                         patronymic = etPatronymic.text.toString(),
                         email = etEmail.text.toString(),
-                        password = etPassword.text.toString()
                     )
                 }
 
@@ -70,33 +77,47 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         surname: String,
         patronymic: String,
         email: String,
-        password: String
     ) {
 
         val db = FirebaseFirestore.getInstance()
-        val user = User(
-            id = UUID.randomUUID().toString(),
-            name = name,
-            surname = surname,
-            patronymic = patronymic,
-            email = email,
-            isLeader = false,
-            isSuperUser = !binding.acceptSwitch.isChecked
-        )
 
-        val docRef = db.collection("user").document(user.id)
-        docRef.set(user)
-            .addOnSuccessListener { Log.d("develop", "User saved successfully") }
-            .addOnFailureListener { e -> Log.e("develop", "Error saving user", e) }
-    }
+        auth.createUserWithEmailAndPassword(
+            binding.etEmail.text.toString(),
+            binding.etPassword.text.toString()
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
 
+                val user = FirebaseAuth.getInstance().currentUser
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(
+                        binding.etName.text.toString() + ' ' + binding.etSurname.text.toString()
+                    ).build()
+                user!!.updateProfile(profileUpdates)
 
-    private fun toast(field: TextInputLayout) {
-        Toast.makeText(
-            activity,
-            "Поле '${field.hint.toString()}' не может быть пустым!",
-            Toast.LENGTH_SHORT
-        ).show()
+                val userToDB = User(
+                    id = user.uid,
+                    name = name,
+                    surname = surname,
+                    patronymic = patronymic,
+                    email = email,
+                    leader = false,
+                    superUser = false
+                )
+
+                val docRef = db.collection("user").document(userToDB.id)
+                docRef.set(userToDB)
+                    .addOnSuccessListener { Log.d("develop", "User saved successfully") }
+                    .addOnFailureListener { e -> Log.e("develop", "Error saving user", e) }
+
+                findNavController().navigate(R.id.action_registerFragment_to_navigationFragment)
+
+            } else {
+                Toast.makeText(
+                    activity, "Authentication failed. ${task.exception}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     fun validateUser(

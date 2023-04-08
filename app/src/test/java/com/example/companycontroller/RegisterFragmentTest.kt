@@ -1,6 +1,6 @@
 package com.example.companycontroller
 
-import com.example.companycontroller.ui.login.RegisterFragment
+import com.example.companycontroller.ui.fragments.login.RegisterFragment
 import org.junit.Assert.*
 import org.junit.Test
 

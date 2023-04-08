@@ -1,4 +1,4 @@
-package com.example.companycontroller.ui.fragments
+package com.example.companycontroller.ui.fragments.groupListFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +28,8 @@ class GroupListFragment: Fragment(R.layout.fragment_group) {
     }
 
     private fun navigateToGroupEditFragment(it: Group) {
-        val action = GroupListFragmentDirections.actionGroupListFragmentToGroupEditFragment(it.id, true)
+        val action =
+            GroupListFragmentDirections.actionGroupListFragmentToGroupEditFragment(it.id, true)
         findNavController().navigate(action)
     }
 

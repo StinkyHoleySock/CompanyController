@@ -1,23 +1,20 @@
-package com.example.companycontroller.ui.fragments
+package com.example.companycontroller.ui.fragments.groupDetailsFragment
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.companycontroller.R
 import com.example.companycontroller.data.model.Group
 import com.example.companycontroller.data.model.User
-import com.example.companycontroller.databinding.FragmentGroupEditBinding
+import com.example.companycontroller.databinding.FragmentGroupDetailsBinding
 import com.example.companycontroller.ui.adapters.UserAdapter
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.companycontroller.ui.fragments.usersDialog.GroupListViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -25,20 +22,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
+class GroupDetailsFragment : Fragment(R.layout.fragment_group_details) {
 
-    private var _binding: FragmentGroupEditBinding? = null
-    private val binding: FragmentGroupEditBinding get() = _binding!!
+    private var _binding: FragmentGroupDetailsBinding? = null
+    private val binding: FragmentGroupDetailsBinding get() = _binding!!
+    private lateinit var viewModel: GroupListViewModel
+
+    private val args: GroupDetailsFragmentArgs by navArgs()
+
     private val userAdapter by lazy {
         UserAdapter() {
-            userAction(it)
         }
-    }
-
-    private val args: GroupEditFragmentArgs by navArgs()
-
-    private fun userAction(user: User) {
-
     }
 
     override fun onCreateView(
@@ -46,11 +40,12 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentGroupEditBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[GroupListViewModel::class.java]
+        _binding = FragmentGroupDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    private suspend fun getUsersByIds(userIds: List<String>): List<User> {
+    private suspend fun getUsersByIds(userIds: List<String>): MutableList<User> {
         val db = Firebase.firestore
 
         val users = mutableListOf<User>()
@@ -61,23 +56,21 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                 users.add(user)
             }
         }
-
         return users
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val db = Firebase.firestore
-
-        binding.btnCancel.setOnClickListener {
-            findNavController().popBackStack()
+        viewModel.userList.observe(viewLifecycleOwner) {
+            userAdapter.setData(it)
+            Log.d("develop", "obs")
         }
 
-        //Просмотр группы: загрузка полей по id документа
+        val db = Firebase.firestore
         db.collection("group")
-            .document(args.id)
+            .document(args.groupId)
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {
@@ -95,12 +88,9 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                         binding.tvGroupLeader.text = "Руководитель группы: $leader"
                     }
 
-
                     CoroutineScope(Dispatchers.Main).launch {
-                        // Обработка результата
                         val users = getUsersByIds(members)
-                        Log.d("develop", "users: ${users}")
-                        userAdapter.setData(users)
+                        viewModel.setUsers(users)
                     }
 
                     binding.rvUsersInGroup.apply {
@@ -119,26 +109,5 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                 Log.d("develop", "get failed with ", exception)
             }
 
-        binding.btnSave.setOnClickListener {
-            val groupRef = db.collection("group").document(args.id)
-            groupRef.update("name", (binding.etGroupName.text.toString()))
-            groupRef.update("task", (binding.etTask.text.toString()))
-        }
-
-        binding.btnSetLeader.setOnClickListener {
-            val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
-                args.id,
-                true
-            )
-            findNavController().navigate(action)
-        }
-
-        binding.btnAdd.setOnClickListener {
-            val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
-                args.id,
-                false
-            )
-            findNavController().navigate(action)
-        }
     }
 }

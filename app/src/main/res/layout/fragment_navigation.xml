@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
         android:layout_marginTop="8dp"
+        android:visibility="gone"
         android:text="@string/groups"/>
 
     <androidx.appcompat.widget.AppCompatButton

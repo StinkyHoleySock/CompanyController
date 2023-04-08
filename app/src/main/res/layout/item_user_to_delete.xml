@@ -9,8 +9,9 @@
         android:id="@+id/tv_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="4dp"
         android:maxLines="1"
-        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,14 +19,13 @@
         tools:text="Иванов Иван Иванович" />
 
     <ImageView
-        android:id="@+id/iv_action"
+        android:id="@+id/iv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_user_name"
-        app:layout_constraintEnd_toEndOf="@+id/tv_user_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_user_name" />
-    <!--        android:src="@drawable/baseline_add_24"-->
-
+        android:layout_margin="16dp"
+        android:src="@drawable/baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_user_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

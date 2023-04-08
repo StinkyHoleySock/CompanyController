@@ -11,6 +11,7 @@ class UserAdapter(
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     private var userList: MutableList<User> = mutableListOf()
+    var idAdding: Boolean = true
 
     fun setData(data: List<User>) {
         userList.clear()
@@ -21,7 +22,7 @@ class UserAdapter(
     inner class UserViewHolder(private val binding: ItemUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
-            binding.tvUserName.text = "${user.name} ${user.surname} ${user.patronymic}"
+            binding.tvUserName.text = "${user.surname} ${user.name} ${user.patronymic}"
 
             binding.root.setOnClickListener {
                 userClickListener(user)

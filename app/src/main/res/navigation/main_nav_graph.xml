@@ -5,7 +5,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.companycontroller.ui.login.LoginFragment"
+        android:name="com.example.companycontroller.ui.fragments.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -16,15 +16,18 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.companycontroller.ui.login.RegisterFragment"
+        android:name="com.example.companycontroller.ui.fragments.login.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_navigationFragment"
+            app:destination="@id/navigationFragment" />
     </fragment>
     <fragment
         android:id="@+id/userListFragment"
-        android:name="com.example.companycontroller.ui.fragments.UserListFragment"
+        android:name="com.example.companycontroller.ui.fragments.userListFragment.UserListFragment"
         android:label="UserListFragment" />
     <fragment
         android:id="@+id/navigationFragment"
@@ -36,10 +39,13 @@
         <action
             android:id="@+id/action_navigationFragment_to_groupListFragment"
             app:destination="@id/groupListFragment" />
+        <action
+            android:id="@+id/action_navigationFragment_to_groupDetailsFragment"
+            app:destination="@id/groupDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupEditFragment"
-        android:name="com.example.companycontroller.ui.fragments.GroupEditFragment"
+        android:name="com.example.companycontroller.ui.fragments.editGroupFragment.GroupEditFragment"
         android:label="GroupEditFragment" >
         <argument
             android:name="id"
@@ -53,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupListFragment"
-        android:name="com.example.companycontroller.ui.fragments.GroupListFragment"
+        android:name="com.example.companycontroller.ui.fragments.groupListFragment.GroupListFragment"
         android:label="GroupListFragment" >
         <action
             android:id="@+id/action_groupListFragment_to_groupEditFragment"
@@ -64,11 +70,11 @@
     </fragment>
     <fragment
         android:id="@+id/groupCreateFragment"
-        android:name="com.example.companycontroller.ui.fragments.GroupCreateFragment"
+        android:name="com.example.companycontroller.ui.fragments.createGroupFragment.GroupCreateFragment"
         android:label="GroupCreateFragment" />
     <fragment
         android:id="@+id/listOfUsersDialog"
-        android:name="com.example.companycontroller.ui.fragments.ListOfUsersDialog"
+        android:name="com.example.companycontroller.ui.fragments.usersDialog.ListOfUsersDialog"
         android:label="ListOfUsersDialog" >
         <action
             android:id="@+id/action_listOfUsersDialog_to_groupEditFragment2"
@@ -79,5 +85,16 @@
         <argument
             android:name="setLeader"
             app:argType="boolean" />
+        <argument
+            android:name="isAdding"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupDetailsFragment"
+        android:name="com.example.companycontroller.ui.fragments.groupDetailsFragment.GroupDetailsFragment"
+        android:label="GroupDetailsFragment" >
+        <argument
+            android:name="groupId"
+            app:argType="string" />
     </fragment>
 </navigation>

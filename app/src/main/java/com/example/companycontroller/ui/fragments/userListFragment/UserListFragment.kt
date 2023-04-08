@@ -1,7 +1,6 @@
-package com.example.companycontroller.ui.fragments
+package com.example.companycontroller.ui.fragments.userListFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.companycontroller.R
-import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.FragmentUserListBinding
 import com.example.companycontroller.shared.extensions.applyVisibility
 import com.example.companycontroller.ui.adapters.UserAdapter
@@ -23,12 +21,7 @@ class UserListFragment: Fragment(R.layout.fragment_user_list) {
 
     private val userAdapter by lazy {
         UserAdapter() {
-            navigateToUser(it)
         }
-    }
-
-    private fun navigateToUser(it: User) {
-        TODO("Not yet implemented")
     }
 
     override fun onCreateView(

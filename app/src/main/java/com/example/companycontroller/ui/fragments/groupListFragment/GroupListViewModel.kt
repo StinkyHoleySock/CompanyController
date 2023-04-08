@@ -1,4 +1,4 @@
-package com.example.companycontroller.ui.fragments
+package com.example.companycontroller.ui.fragments.groupListFragment
 
 import android.util.Log
 import androidx.lifecycle.LiveData
