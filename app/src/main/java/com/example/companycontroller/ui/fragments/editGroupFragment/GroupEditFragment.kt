@@ -16,6 +16,7 @@ import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.FragmentGroupEditBinding
 import com.example.companycontroller.shared.extensions.ToastError
 import com.example.companycontroller.ui.adapters.UserAdapter
+import com.example.companycontroller.ui.adapters.UserAdapterToDelete
 import com.example.companycontroller.ui.fragments.userListFragment.UserListViewModel
 import com.example.companycontroller.ui.fragments.usersDialog.GroupListViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -39,7 +40,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
 
     //Инициализация адаптера для юзеров
     private val userAdapter by lazy {
-        UserAdapter() {
+        UserAdapterToDelete() {
             userAction(it)
         }
     }

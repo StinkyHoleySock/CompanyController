@@ -24,7 +24,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
