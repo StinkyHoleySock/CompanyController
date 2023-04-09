@@ -50,4 +50,5 @@
     <string name="request_call">Запросить звонок</string>
     <string name="messages">Сообщения от работников</string>
     <string name="my_messages">Мои сообщения</string>
+    <string name="register_as_superuser">Зарегистрироваться как начальник</string>
 </resources>

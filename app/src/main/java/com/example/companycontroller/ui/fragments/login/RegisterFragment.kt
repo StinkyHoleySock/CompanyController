@@ -93,6 +93,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         binding.etName.text.toString() + ' ' + binding.etSurname.text.toString()
                     ).build()
                 user!!.updateProfile(profileUpdates)
+                val superUser = binding.switchSuperUser.isChecked
 
                 //Создание объекта пользователя
                 val userToDB = User(
@@ -102,7 +103,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     patronymic = patronymic,
                     email = email,
                     leader = false,
-                    superUser = false,
+                    superUser = superUser,
                     fcmToken = ""
                 )
                 //Запись пользователя в базу данных

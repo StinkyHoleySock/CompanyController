@@ -12,8 +12,10 @@ import kotlinx.coroutines.tasks.await
 
 class GroupListViewModel: ViewModel() {
 
+    //LiveData для подписки на изменение данных
     private val _usersList = MutableLiveData<MutableList<User>>()
     val userList: LiveData<MutableList<User>> get() = _usersList
+
 
     fun setUsers(users: MutableList<User>) {
         _usersList.value = users

@@ -56,18 +56,6 @@ class UserListViewModel: ViewModel() {
                 Log.d("develop", "Error filtering users by name", exception)
             }
 
-//        db.collection("user")
-//            .whereEqualTo("surname", query)
-//            .get()
-//            .addOnSuccessListener { result ->
-//                _isLoading.value = false
-//                val filteredUsers = result.toObjects(User::class.java)
-//                _usersList.postValue(filteredUsers)
-//            }
-//            .addOnFailureListener { exception ->
-//                _isLoading.value = false
-//                Log.d("develop", "Error filtering users by name", exception)
-//            }
     }
 
 }

@@ -66,7 +66,4 @@ class UserListFragment: Fragment(R.layout.fragment_user_list) {
             binding.progressCircular.applyVisibility(it)
         }
     }
-
-
-
 }

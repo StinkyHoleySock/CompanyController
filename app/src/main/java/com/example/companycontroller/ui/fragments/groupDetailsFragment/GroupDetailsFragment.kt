@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.companycontroller.FcmNotificationsSender
 import com.example.companycontroller.R
 import com.example.companycontroller.data.model.Group
 import com.example.companycontroller.data.model.Message
@@ -92,7 +91,8 @@ class GroupDetailsFragment : Fragment(R.layout.fragment_group_details) {
                     val group = document.toObject(Group::class.java)
                     // Получение списка участников группы
                     val members = group?.members ?: listOf()
-                    // Заполнение полей на экране данными из полученного объекта group                    binding.etGroupName.setText(group?.name)
+                    // Заполнение полей на экране данными из полученного объекта group
+                    binding.etGroupName.setText(group?.name)
                     binding.etTask.setText(group?.task)
 
                     // Получение руководителя группы
