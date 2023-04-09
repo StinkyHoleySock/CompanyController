@@ -29,6 +29,7 @@ class UserListFragment: Fragment(R.layout.fragment_user_list) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и ViewModel
         viewModel = ViewModelProvider(this)[UserListViewModel::class.java]
         _binding = FragmentUserListBinding.inflate(inflater, container, false)
         return binding.root

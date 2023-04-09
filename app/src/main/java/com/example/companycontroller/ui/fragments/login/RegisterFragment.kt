@@ -94,6 +94,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     ).build()
                 user!!.updateProfile(profileUpdates)
 
+                //Создание объекта пользователя
                 val userToDB = User(
                     id = user.uid,
                     name = name,
@@ -101,9 +102,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     patronymic = patronymic,
                     email = email,
                     leader = false,
-                    superUser = false
+                    superUser = false,
+                    fcmToken = ""
                 )
-
+                //Запись пользователя в базу данных
                 val docRef = db.collection("user").document(userToDB.id)
                 docRef.set(userToDB)
                     .addOnSuccessListener { Log.d("develop", "User saved successfully") }
@@ -120,6 +122,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
     }
 
+    //Метод для проверки валидности полей
     fun validateUser(
         username: String,
         surname: String,
@@ -131,6 +134,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 && email.isNotEmpty() && password.isNotEmpty())
     }
 
+    //Методы для тестирования
     fun checkRules(isChecked: Boolean): String {
         return if (isChecked) "Rules is accepted"
         else "Rules not accepted"

@@ -32,6 +32,7 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и ViewModel
         viewModel = ViewModelProvider(this)[UserListViewModel::class.java]
         _binding = FragmentCreateGroupBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,13 +41,19 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Инициализация объектов
         val spinner = binding.spinnerLeader
         val users = mutableListOf<User>()
+
+        //Подписка на обновление списка пользователей
         viewModel.userList.observe(viewLifecycleOwner) {
             users.addAll(it)
             val adapter = UserSpinnerAdapter(requireContext(), users)
+
+            //Установка данных в спиннер
             spinner.adapter = adapter
 
+            //Обработка нажатия на спиннер
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -59,14 +66,14 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
                     Log.d("develop", "sU: ${adapter.getItem(position)}")
                 }
 
+                // Обработка случая, когда ничего не выбрано
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // Обработка случая, когда ничего не выбрано
                 }
             }
         }
 
+        //Обработка нажатия на кнопку сохранить
         binding.btnSave.setOnClickListener {
-
             when {
                 //Валидация полей
                 binding.etGroupName.text.toString().isEmpty() -> toast(
@@ -77,7 +84,7 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
                     requireActivity(),
                     binding.tilTask
                 )
-
+                //Если все поля валидны, то сохраняем
                 else -> {
                     val db = FirebaseFirestore.getInstance()
                     val id = UUID.randomUUID().toString()
@@ -90,7 +97,7 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
                     )
 
                     val docRef = db.collection("group").document(id)
-                    docRef.set(group)
+                    docRef.set(group) //Хдесь происходит сохранение группы в БД
                         .addOnSuccessListener {
                             findNavController().popBackStack()
                             Log.d("develop", "Group saved successfully")
@@ -102,6 +109,7 @@ class GroupCreateFragment : Fragment(R.layout.fragment_create_group) {
             }
         }
 
+        //При нажатии кнопки отмена, навигация на предыдущий экран
         binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }

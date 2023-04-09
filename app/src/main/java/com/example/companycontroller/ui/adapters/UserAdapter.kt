@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.companycontroller.data.model.User
 import com.example.companycontroller.databinding.ItemUserBinding
 
+/** Это адаптер для списка пользователей, который отображает данные в элементе списка и обрабатывает нажатия на элементы списка.**/
+
 class UserAdapter(
     private val userClickListener: (user: User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
+
     private var userList: MutableList<User> = mutableListOf()
-    var idAdding: Boolean = true
 
     fun setData(data: List<User>) {
         userList.clear()

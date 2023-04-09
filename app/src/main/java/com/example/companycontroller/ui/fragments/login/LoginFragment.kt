@@ -24,6 +24,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и авторизации
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         auth = Firebase.auth
         return binding.root
@@ -43,6 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding.btnLogin.setOnClickListener {
             when {
+                //Валидация полей
                 binding.etEmail.text.toString().isEmpty() -> {
                     Toast.makeText(activity, "${binding.etEmail.hint} is empty!", Toast.LENGTH_SHORT)
                         .show()
@@ -53,6 +55,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         .show()
                 }
 
+                //Вход в систему
                 else -> firebaseSignIn(
                     binding.etEmail.text.toString(),
                     binding.etPassword.text.toString()
@@ -61,6 +64,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
+    //Метод для входа в Firebase
     private fun firebaseSignIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(
             email, password
@@ -75,7 +79,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
     }
-
+    //Методы для тестирования
     fun validateUser(email: String, password: String): Boolean {
         return (email.isNotEmpty() && password.isNotEmpty() && password.length >= 8)
     }

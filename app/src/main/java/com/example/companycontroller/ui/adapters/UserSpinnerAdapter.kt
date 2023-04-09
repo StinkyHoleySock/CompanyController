@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.companycontroller.data.model.User
 
+/** Это адаптер для выпадающего списка**/
 class UserSpinnerAdapter(private val context: Context, private val users: List<User>) : ArrayAdapter<User>(context, android.R.layout.simple_spinner_item, users) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

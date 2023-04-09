@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputLayout
 
+//Метод для указания ошибки заполнения поля
 object ToastError {
     fun toast(context: Context, field: TextInputLayout) {
         Toast.makeText(

@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_navigationFragment_to_groupDetailsFragment"
             app:destination="@id/groupDetailsFragment" />
+        <action
+            android:id="@+id/action_navigationFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupEditFragment"
@@ -96,5 +99,15 @@
         <argument
             android:name="groupId"
             app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.companycontroller.ui.fragments.messages.MessageFragment"
+        android:label="MessageFragment" />
 </navigation>

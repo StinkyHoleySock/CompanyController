@@ -32,27 +32,32 @@ import java.util.*
 
 class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
 
+    //Объявление ViewBinding и ViewModel
     private var _binding: FragmentGroupEditBinding? = null
     private val binding: FragmentGroupEditBinding get() = _binding!!
-
     private lateinit var viewModel: GroupListViewModel
 
+    //Инициализация адаптера для юзеров
     private val userAdapter by lazy {
         UserAdapter() {
             userAction(it)
         }
     }
 
+    //Объявление аргументов из навигации
     private val args: GroupEditFragmentArgs by navArgs()
 
+    //Метод для обработки нажатия на пользователя
     private fun userAction(user: User) {
         val db = Firebase.firestore
         val groupRef = db.collection("group").document(args.id)
         Log.d("develop", "click")
 
+        //Удаление пользователя из списка
         groupRef.update("members", FieldValue.arrayRemove(user.id))
         viewModel.deleteUser(user)
 
+        //Обновление списка
         db.collection("group")
             .document(args.id)
             .get()
@@ -70,11 +75,13 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и ViewModel
         viewModel = ViewModelProvider(this)[GroupListViewModel::class.java]
         _binding = FragmentGroupEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    //Метод для получения списка пользователей, зная их ID
     private suspend fun getUsersByIds(userIds: List<String>): MutableList<User> {
         val db = Firebase.firestore
 
@@ -90,14 +97,15 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         val db = Firebase.firestore
 
+        //Обработка кнопки отмены
         binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
+        //Подписка на изменение списка пользователей
         viewModel.userList.observe(viewLifecycleOwner) {
             userAdapter.setData(it)
             Log.d("develop", "obs")
@@ -115,6 +123,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                     binding.etGroupName.setText(group?.name)
                     binding.etTask.setText(group?.task)
 
+                    //Получение начальника группы
                     CoroutineScope(Dispatchers.Main).launch {
                         // Обработка результата
                         val leaderUser = getUsersByIds(listOf(group?.leader) as List<String>)
@@ -122,6 +131,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                         binding.tvGroupLeader.text = "Руководитель группы: $leader"
                     }
 
+                    //Получение работников в группе
                     CoroutineScope(Dispatchers.Main).launch {
                         val users = getUsersByIds(members)
                         viewModel.setUsers(users)
@@ -143,6 +153,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                 Log.d("develop", "get failed with ", exception)
             }
 
+        //Обработка кнопки сохранить
         binding.btnSave.setOnClickListener {
             when {
                 //Валидация полей
@@ -155,6 +166,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
                     binding.tilTask
                 )
 
+                //Сохранение изменений и навигация назад при услоии, что поля валидны
                 else -> {
                     val groupRef = db.collection("group").document(args.id)
                     groupRef.update("name", (binding.etGroupName.text.toString()))
@@ -165,6 +177,7 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
             }
         }
 
+        //Обработка кнопки назначить руководителя
         binding.btnSetLeader.setOnClickListener {
             val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
                 args.id,
@@ -174,12 +187,14 @@ class GroupEditFragment : Fragment(R.layout.fragment_group_edit) {
             findNavController().navigate(action)
         }
 
+        //Обработка нажатия на добавление нового работника
         binding.btnAdd.setOnClickListener {
             val action = GroupEditFragmentDirections.actionGroupEditFragmentToListOfUsersDialog(
                 args.id,
                 false,
                 true
             )
+            //Навигация на экрас с выбором работника
             findNavController().navigate(action)
         }
     }

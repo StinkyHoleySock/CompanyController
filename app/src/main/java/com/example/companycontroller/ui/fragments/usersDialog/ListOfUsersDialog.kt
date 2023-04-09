@@ -21,12 +21,14 @@ import com.google.firebase.ktx.Firebase
 
 class ListOfUsersDialog : Fragment(R.layout.fragment_user_list_dialog) {
 
+
     private var _binding: FragmentUserListDialogBinding? = null
     private val binding: FragmentUserListDialogBinding get() = _binding!!
     private lateinit var viewModel: UserListViewModel
 
     private val args: ListOfUsersDialogArgs by navArgs()
 
+    //
     private val userAdapter by lazy {
         UserAdapter() {
             updateUsers(it)
@@ -52,6 +54,7 @@ class ListOfUsersDialog : Fragment(R.layout.fragment_user_list_dialog) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и ViewModel
         viewModel = ViewModelProvider(this)[UserListViewModel::class.java]
         _binding = FragmentUserListDialogBinding.inflate(inflater, container, false)
         return binding.root

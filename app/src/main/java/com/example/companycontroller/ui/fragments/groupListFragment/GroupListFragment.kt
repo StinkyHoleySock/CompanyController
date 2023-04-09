@@ -38,6 +38,7 @@ class GroupListFragment: Fragment(R.layout.fragment_group) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //Инициализация ViewBinding и ViewModel
         viewModel = ViewModelProvider(this)[GroupListViewModel::class.java]
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
         return binding.root
@@ -58,27 +59,33 @@ class GroupListFragment: Fragment(R.layout.fragment_group) {
             findNavController().navigate(R.id.action_groupListFragment_to_groupCreateFragment)
         }
 
+        //Обработка поиска
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            //Когда текст напечатан
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.filterGroupsByName(query)
                 return false
             }
+            //Когда текст изменился
             override fun onQueryTextChange(newText: String): Boolean {
                 viewModel.filterGroupsByName(newText)
                 return false
             }
         })
 
+        //Подписка на отфильтрованный список
         viewModel.groupList.observe(viewLifecycleOwner) { groupsList ->
             groupAdapter.setData(groupsList)
         }
 
+        //Подписка на индикатор загрузки
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.progressCircular.applyVisibility(it)
         }
     }
 
+    //ПОлучение групп после навигаций
     override fun onResume() {
         super.onResume()
         viewModel.getGroups()

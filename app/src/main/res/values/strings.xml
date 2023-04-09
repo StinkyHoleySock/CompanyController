@@ -48,4 +48,6 @@
     <string name="save_group">Сохранить группу?</string>
     <string name="finish_task">Выполнил задание</string>
     <string name="request_call">Запросить звонок</string>
+    <string name="messages">Сообщения от работников</string>
+    <string name="my_messages">Мои сообщения</string>
 </resources>

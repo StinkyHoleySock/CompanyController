@@ -55,19 +55,6 @@ class GroupListViewModel: ViewModel() {
                 _isLoading.value = false
                 Log.d("develop", "Error filtering groups by name", exception)
             }
-
-//        db.collection("group")
-//            .whereEqualTo("surname", query)
-//            .get()
-//            .addOnSuccessListener { result ->
-//                _isLoading.value = false
-//                val filteredGroups = result.toObjects(Group::class.java)
-//                _groupsList.postValue(filteredGroups)
-//            }
-//            .addOnFailureListener { exception ->
-//                _isLoading.value = false
-//                Log.d("develop", "Error filtering groups by name", exception)
-//            }
     }
 
 }
